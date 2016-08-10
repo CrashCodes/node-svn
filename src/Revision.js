@@ -12,7 +12,11 @@ Revision.from_xml = function from_xml(old){
   pojo.author = old.author[0];
   pojo.date = new Date(old.date[0]);
   pojo.message = old.msg[0];
-  pojo.paths = old.paths[0].path.map(function(path){ return path._;}); // filename
+  pojo.paths = old.paths[0].path.map(function(path){
+    var result = path.$; // TODO: shallow copy instead of reference copy
+    result.path = path._; // file or directory
+    return result;
+  });
   return new Revision(pojo);
 };
 
